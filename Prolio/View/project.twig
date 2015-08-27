@@ -1,0 +1,10 @@
+{% extends "_base.twig" %}
+{% block content %}
+    <div class="container">
+        <h2>{{ project.name }}</h2>
+        <ul>
+            <li>Créé le {{ project.created_at|date("d/m/Y") }}</li>
+            <li>Mis à jour : {{ project.updated_at|date("d/m/Y") }}</li>
+        </ul>
+    </div>
+{% endblock %}

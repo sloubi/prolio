@@ -1,0 +1,11 @@
+{% extends "_base.twig" %}
+{% block content %}
+    <div class="container">
+        <h2>Liste des projets</h2>
+        <ul>
+            {% for project in projects %}
+                <li><a href="{{ urlFor('project', {"id": project.id}) }}">{{ project.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

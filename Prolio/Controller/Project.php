@@ -25,10 +25,15 @@ class Project
     {
         $project = $this->model->get($project_id);
 
+        $tagModel = new \Prolio\Model\Tag();
+        $tags = $tagModel->getAllByProject($project_id);
+        $tags = $tagModel->tagsToString($tags);
+        
         if ($project)
         {
             $this->app->render('project.twig', [
-                'project' => $project
+                'project' => $project,
+                'tags' => $tags
             ]);
         }
         else

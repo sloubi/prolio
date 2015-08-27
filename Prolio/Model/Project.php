@@ -13,18 +13,9 @@ class Project
         $this->db = \Prolio\Model\Spdo::get();
     }
 
-
-    public function getAmountOfSongs()
-    {
-        $sql = "SELECT COUNT(id) AS amount_of_songs FROM song";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-
-        return $query->fetch()->amount_of_songs;
-    }
-
     /**
-     * Get all songs from database
+     * Get all projects from database
+     * @return  array
      */
     public function all()
     {
@@ -36,9 +27,9 @@ class Project
     }
 
     /**
-     * Get a song from database
-     * @param int $song_id Id of song
-     * @return mixed
+     * Get a project from database
+     * @param int $project_id Id of project
+     * @return object
      */
     public function get($project_id)
     {
@@ -48,4 +39,5 @@ class Project
 
         return $query->fetch();
     }
+
 }

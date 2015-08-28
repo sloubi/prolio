@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
 
     <title>Prolio</title>
 
     <link href="css/main.css" rel="stylesheet">
-  </head>
-  <body>
-    <h1><a href="{{ baseUrl() }}">Prolio</a> <small>alpha</small></h1>
+</head>
+<body>
 
-    <p><a href="{{ urlFor('projects') }}">Projets</a></p>
-
-    {% block content %} {% endblock %}
-  </body>
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="{{ baseUrl() }}">Accueil</a></li>
+                    <li class="active"><a href="{{ urlFor('projects') }}" class="active">Projets</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <h1><a href="{{ baseUrl() }}">Prolio</a> <small>alpha</small></h1>
+        </header>
+        
+        {% block content %} {% endblock %}
+    </div>
+</body>
 </html>

@@ -28,12 +28,16 @@ class Project
         $tagModel = new \Prolio\Model\Tag();
         $tags = $tagModel->getAllByProject($project_id);
         $tags = $tagModel->tagsToString($tags);
-        
+
+        $buttonModel = new \Prolio\Model\Button();
+        $buttons = $buttonModel->getAllByProject($project_id);
+
         if ($project)
         {
             $this->app->render('project.twig', [
                 'project' => $project,
-                'tags' => $tags
+                'tags' => $tags,
+                'buttons' => $buttons
             ]);
         }
         else

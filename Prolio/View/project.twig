@@ -9,6 +9,18 @@
             Tags : {{ tags }}
         </li>
     </ul>
+    <ul>
+        {% for button in buttons %}
+            <li>
+                <a href="{{ button.url }}" class="btn btn-default">
+                    {% if button.icon %}
+                        <span class="glyphicon {{ button.icon}}" aria-hidden="true"></span>
+                    {% endif %}
+                    {{ button.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
     <div class="desc">
         {{ project.description }}
     </div>

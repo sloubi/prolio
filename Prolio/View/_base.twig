@@ -17,14 +17,20 @@
         <header>
             <nav>
                 <ul class="nav nav-pills pull-right">
-                    <li><a href="{{ baseUrl() }}">Accueil</a></li>
-                    <li class="active"><a href="{{ urlFor('projects') }}" class="active">Projets</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li {% if active_page is empty %}class="active"{% endif %}>
+                        <a href="{{ baseUrl() }}">Accueil</a>
+                    </li>
+                    <li {% if active_page == 'projects' %}class="active"{% endif %}>
+                        <a href="{{ urlFor('projects') }}" class="active">Projets</a>
+                    </li>
+                    <li {% if active_page == 'contact' %}class="active"{% endif %}>
+                        <a href="#">Contact</a>
+                    </li>
                 </ul>
             </nav>
             <h1><a href="{{ baseUrl() }}">Prolio</a> <small>alpha</small></h1>
         </header>
-        
+
         {% block content %} {% endblock %}
     </div>
 </body>

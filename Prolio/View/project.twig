@@ -26,4 +26,19 @@
     <div class="desc">
         {{ project.description }}
     </div>
+
+    {% if images is not empty %}
+        <div class="row">
+            {% for image in images %}
+                <div class="col-xs-6 col-md-3">
+                    <div class="thumbnail">
+                        <img src="/images/projects/{{ image.filename }}" alt="{{ image.name }}">
+                        <div class="caption">
+                            {{ image.name }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

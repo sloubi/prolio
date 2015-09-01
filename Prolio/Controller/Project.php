@@ -32,12 +32,16 @@ class Project
         $buttonModel = new \Prolio\Model\Button();
         $buttons = $buttonModel->getAllByProject($project_id);
 
+        $imageModel = new \Prolio\Model\Image();
+        $images = $imageModel->getAllByProject($project_id);
+
         if ($project)
         {
             $this->app->render('project.twig', [
                 'project' => $project,
                 'tags' => $tags,
-                'buttons' => $buttons
+                'buttons' => $buttons,
+                'images' => $images
             ]);
         }
         else

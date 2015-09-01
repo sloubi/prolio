@@ -1,0 +1,35 @@
+{% set active_page = "contact" %}
+{% extends "_base.twig" %}
+{% block content %}
+    <h2>Contact</h2>
+    {% if not sent %}
+        
+        {% if error %}
+            <div class="alert alert-warning" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        
+        <form action="{{ urlFor('contact') }}" method="post">
+            <div class="form-group">
+                <label for="name">Votre nom</label>
+                <input type="text" class="form-control" name="name" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Votre email</label>
+                <input type="text" class="form-control" name="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Votre message</label>
+                <textarea class="form-control" name="message" id="message" rows="5" required></textarea>
+            </div>
+            <input type="submit" value="Envoyer" class="btn btn-primary">
+        </form>
+    {% else %}
+        <div class="alert alert-success" role="alert">
+            Votre message a été envoyé. Je vous répond au plus vite.<br>
+            A bientôt !
+        </div>
+        <a href="{{ baseUrl() }}">&laquo; Retour</a>
+    {% endif %}
+{% endblock %}

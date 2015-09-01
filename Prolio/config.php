@@ -10,6 +10,9 @@ $app->configureMode('development', function () use ($app) {
             'name' => 'sloubi',
             'user' => 'root',
             'pass' => ''
+        ),
+        'user' => array(
+            'email' => 'test@test.com'
         )
     ));
 });
@@ -24,6 +27,9 @@ $app->configureMode('production', function () use ($app) {
             'name' => '',
             'user' => '',
             'pass' => ''
+        ),
+        'user' => array(
+            'email' => 'test@test.com'
         )
     ));
 });

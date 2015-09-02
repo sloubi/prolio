@@ -1,0 +1,32 @@
+{% extends "backend/_base.twig" %}
+{% block content %}
+    <h2>Liste des projets</h2>
+
+    <a href="{{ urlFor('project_add') }}" class="btn btn-success">Ajouter un projet</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Tags</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td>{{ project.id }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.extract }}</td>
+                    <td>{{ project.tags }}</td>
+                    <td>
+                        <a href="#" class="btn btn-default">Modifier</a>
+                        <a href="#" class="btn btn-default">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

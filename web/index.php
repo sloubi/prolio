@@ -12,6 +12,10 @@ $app = new \Slim\Slim();
 $app->config('mode', 'development');
 require '../Prolio/config.php';
 
+// Session
+session_cache_limiter(false);
+session_start();
+
 // View
 $app->view = new \Slim\Views\Twig();
 $app->view->setTemplatesDirectory("../Prolio/View");

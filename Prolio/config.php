@@ -12,7 +12,9 @@ $app->configureMode('development', function () use ($app) {
             'pass' => ''
         ),
         'user' => array(
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
+            // password_hash('test', PASSWORD_DEFAULT);
+            'password' => '$2y$10$CKsSStl.9WKjeUXU5Dblb.5HJcd7GDhTe.WRgRbUCEFvbK4VqSNxK'
         )
     ));
 });

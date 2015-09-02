@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <title>Prolio Admin login</title>
+</head>
+<body class="form-signin">
+
+    <div class="container">
+        <form method="post" action="{{ urlFor('login') }}">
+            <h2>Connexion</h2>
+
+            {% if error %}
+                <div class="alert alert-warning" role="alert">
+                    Mot de passe invalide.
+                </div>
+            {% endif %}
+
+            <label for="password" class="sr-only">Mot de passe</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe" required autofocus>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+        </form>
+    </div>
+</body>
+</html>

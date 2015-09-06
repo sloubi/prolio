@@ -69,7 +69,8 @@ class ProjectBackend
             // All post values
             $values = $request->post();
 
-            if ($image = $this->upload())
+            // Upload
+            if ($image = $this->upload($project_id))
                 $values['image'] = $image;
 
             // Create project
@@ -98,10 +99,18 @@ class ProjectBackend
         }
     }
 
-    protected function upload()
+    protected function upload($project_id)
     {
         if (!isset($_FILES['image']) || $_FILES['image']['error'] > 0)
             return false;
+
+        // Delete previous image
+        if ($project_id)
+        {
+            $project = $this->projectModel->get($project_id);
+            if (file_exists(PUBLIC_DIR . '/images/projects/' . $project->image))
+                unlink(PUBLIC_DIR . '/images/projects/' . $project->image);
+        }
 
         $name = uniqid('img-'.date('Ymd').'-') . '.jpg';
         move_uploaded_file($_FILES['image']['tmp_name'], PUBLIC_DIR . '/images/projects/'.$name);

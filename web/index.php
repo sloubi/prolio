@@ -17,6 +17,14 @@ DEFINE('PUBLIC_DIR', dirname(__FILE__));
 session_cache_limiter(false);
 session_start();
 
+// Debug
+$debugbar = new \Slim\Middleware\DebugBar();
+$app->add($debugbar);
+
+// Database
+$dbConfig = $app->config('database');
+\Prolio\Model\Spdo::setMysqlParams($dbConfig['host'], $dbConfig['name'], $dbConfig['user'], $dbConfig['pass']);
+
 // View
 $app->view = new \Slim\Views\Twig();
 $app->view->setTemplatesDirectory("../Prolio/View");
@@ -26,14 +34,10 @@ $app->view->parserOptions = array(
 );
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
-
-// Debug
-$debugbar = new \Slim\Middleware\DebugBar();
-$app->add($debugbar);
-
-// Database
-$dbConfig = $app->config('database');
-\Prolio\Model\Spdo::setMysqlParams($dbConfig['host'], $dbConfig['name'], $dbConfig['user'], $dbConfig['pass']);
+// Title
+$pageModel = new \Prolio\Model\Page();
+$home = $pageModel->getBySlug('home');
+$app->view->getInstance()->addGlobal('siteTitle', $home->name);
 
 // Routes
 require '../Prolio/routes.php';

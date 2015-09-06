@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
 
-    <title>Prolio</title>
+    <title>{{ siteTitle }}{% if pageTitle %} | {{ pageTitle }}{% endif %}</title>
 </head>
 <body>
 
@@ -15,18 +15,18 @@
         <header>
             <nav>
                 <ul class="nav nav-pills pull-right">
-                    <li {% if active_page is empty %}class="active"{% endif %}>
+                    <li {% if activePage is empty %}class="active"{% endif %}>
                         <a href="{{ baseUrl() }}">Accueil</a>
                     </li>
-                    <li {% if active_page == 'projects' %}class="active"{% endif %}>
+                    <li {% if activePage == 'projects' %}class="active"{% endif %}>
                         <a href="{{ urlFor('projects') }}" class="active">Projets</a>
                     </li>
-                    <li {% if active_page == 'contact' %}class="active"{% endif %}>
+                    <li {% if activePage == 'contact' %}class="active"{% endif %}>
                         <a href="{{ urlFor('contact') }}">Contact</a>
                     </li>
                 </ul>
             </nav>
-            <h1><a href="{{ baseUrl() }}">Prolio</a> <small>alpha</small></h1>
+            <h1><a href="{{ baseUrl() }}">{{ siteTitle }}</a></h1>
         </header>
 
         {% block content %} {% endblock %}

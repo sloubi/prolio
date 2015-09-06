@@ -49,10 +49,7 @@ class Backend
 
         if ($this->app->request->isPost())
         {
-            $values['content'] = $this->app->request->post('content');
-            $values['slug'] = $page->slug;
-            $values['name'] = $page->name;
-            $pageModel->update($values, $page->id);
+            $pageModel->update($this->app->request->post(), $page->id);
 
             $this->app->flash('success', 'Accueil modifié');
             $this->app->redirect('/admin');

@@ -52,7 +52,7 @@
     </div>
 
     <div class="project-desc">
-        {{ project.description }}
+        {{ project.description | raw }}
     </div>
 
     {% if images is not empty %}

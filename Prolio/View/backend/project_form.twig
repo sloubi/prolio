@@ -1,0 +1,119 @@
+{% extends "backend/_base.twig" %}
+{% block content %}
+    {% if edit %}
+        <h2>Modifier le projet</h2>
+    {% else %}
+        <h2>Ajouter le projet</h2>
+    {% endif %}
+
+    <form action="{{ urlFor('project_process', {"id": project.id }) }}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Nom</label>
+                    <input type="text" class="form-control" name="name" id="name" value="{{ post ? post.name : project.name }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="version">Version</label>
+                    <input type="text" class="form-control" name="version" id="version" value="{{ post ? post.version : project.version }}">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                 <div class="form-group">
+                    <label for="created_at">Date de création</label>
+                    <div class="input-group date">
+                        <input type='text' class="form-control" name="created_at" id="created_at" value="{{ post ? post.created_at : project.created_at }}" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="updated_at">Date de mise à jour</label>
+                    <div class="input-group date">
+                        <input type='text' class="form-control" name="updated_at" id="updated_at" value="{{ post ? post.updated_at : project.updated_at }}" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="extract">Résumé</label>
+            <textarea class="form-control" name="extract" id="extract" rows="3" required>{{ post ? post.extract : project.extract }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="15" required>{{ post ? post.description : project.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" height="100">
+            {% if project.image %}
+                <img src="/images/projects/{{ project.image }}" alt="">
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Boutons</h3>
+
+                {% for button in buttons %}
+                    <div class="form-group">
+                        <label for="button_{{ button.id }}">
+                            {% if button.icon %}
+                                <span class="glyphicon {{ button.icon}}" aria-hidden="true"></span>
+                            {% endif %}
+                            {{ button.name }}
+                        </label>
+                        <input type="text" class="form-control" name="buttons[{{ button.id }}]" id="button_{{ button.id }}" value="{% if button.id in project.buttons|keys %}{{ project.buttons[button.id] }}{% endif %}" placeholder="Url du bouton ou vide pour ne pas activer le bouton">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6">
+                <h3>Tags</h3>
+                <div class="form-group">
+                    {% for tag in tags %}
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="tags[]" value="{{ tag.id }}" {% if tag.id in project.tags %}checked{% endif %}>
+                                {{ tag.name }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            {% if edit %}
+                <input type="submit" class="btn btn-primary" value="Modifier le projet" >
+            {% else %}
+                <input type="submit" class="btn btn-primary" value="Ajouter le projet" >
+            {% endif %}
+
+            <a href="{{ urlFor('project_list') }}" class="btn btn-default">Annuler</a>
+        </div>
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/locales/bootstrap-datepicker.fr.min.js"></script>
+    <script>
+    $('.input-group.date').datepicker({
+        format: "dd/mm/yyyy",
+        todayBtn: "linked",
+        language: "fr",
+        autoclose: true
+    });
+    </script>
+{% endblock %}

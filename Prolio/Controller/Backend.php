@@ -25,7 +25,7 @@ class Backend
         if ($this->user->check($password, $hash))
         {
             $this->user->login();
-            $this->app->redirect('/admin/home', 301);
+            $this->app->redirect('/admin');
         }
         // Invalid credentials
         else
@@ -39,19 +39,12 @@ class Backend
     public function logout()
     {
         $this->user->logout();
+        $this->app->redirect('/admin');
     }
 
-    public function home()
+    public function index()
     {
-        $projectModel = new \Prolio\Model\Project();
-        $tagModel = new \Prolio\Model\Tag();
-
-        $projects = $projectModel->all();
-        $projectModel->addTags($projects);
-
-        $this->app->render('backend/home.twig', [
-            'projects' => $projects
-        ]);
+        $this->app->render('backend/index.twig');
     }
 
 }

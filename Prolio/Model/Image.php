@@ -2,16 +2,9 @@
 
 namespace Prolio\Model;
 
-class Image
+class Image extends Model
 {
     protected $table = 'projects_images';
-
-    public function __construct()
-    {
-        global $app;
-        $this->app = $app;
-        $this->db = \Prolio\Model\Spdo::get();
-    }
 
     /**
      * Get images related to a project

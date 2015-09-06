@@ -5,8 +5,12 @@
     <img src="/images/projects/{{ project.image }}" alt="{{ project.name }}" style="height: 100px;">
     <ul>
         <li>Version : {{ project.version }}</li>
-        <li>Créé le {{ project.created_at|date("d/m/Y") }}</li>
-        <li>Mis à jour : {{ project.updated_at|date("d/m/Y") }}</li>
+        {% if project.created_at %}
+            <li>Créé le {{ project.created_at }}</li>
+        {% endif %}
+        {% if project.updated_at %}
+            <li>Mis à jour : {{ project.updated_at }}</li>
+        {% endif %}
         <li>
             Tags : {{ tags }}
         </li>

@@ -11,6 +11,7 @@ $app = new \Slim\Slim();
 // Configuration
 $app->config('mode', 'development');
 require '../Prolio/config.php';
+DEFINE('PUBLIC_DIR', dirname(__FILE__));
 
 // Session
 session_cache_limiter(false);
@@ -25,6 +26,10 @@ $app->view->parserOptions = array(
 );
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
+
+// Debug
+$debugbar = new \Slim\Middleware\DebugBar();
+$app->add($debugbar);
 
 // Database
 $dbConfig = $app->config('database');

@@ -2,7 +2,7 @@
 
 $app->get('/', function () use ($app) {
     $app->render('index.twig');
-});
+})->name('home');
 
 $app->get('/project/:id', '\Prolio\Controller\Project:get')->name('project');
 $app->get('/projects', '\Prolio\Controller\Project:all')->name('projects');
@@ -26,6 +26,14 @@ $app->group('/admin', function () use ($app) {
     $app->get('/login', '\Prolio\Controller\Backend:loginGet')->name('login');
     $app->post('/login', '\Prolio\Controller\Backend:loginPost');
 
-    $app->get('/home', 'checkAdminAccess', '\Prolio\Controller\Backend:home');
-    $app->get('/logout', 'checkAdminAccess', '\Prolio\Controller\Backend:logout');
+    $app->get('/', 'checkAdminAccess', '\Prolio\Controller\Backend:index')->name('admin');
+    $app->get('/logout', 'checkAdminAccess', '\Prolio\Controller\Backend:logout')->name('logout');
+
+    $app->get('/project/list', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:all')->name('project_list');
+
+    $app->get('/project/add', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:add')->name('project_add');
+    $app->get('/project/edit/:id', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:edit')->name('project_edit');
+    $app->post('/project/process/(:id)', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:process')->name('project_process');
+    
+    $app->get('/project/delete/:id', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:delete')->name('project_delete');
 });

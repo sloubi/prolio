@@ -53,7 +53,12 @@ abstract class Model
         $columns = implode(',', $this->columns);
 
         // Add ":" before all column names
-        $paramNames = array_map(function($col) { return ':'.$col; }, $this->columns);
+        foreach ($this->columns as $col)
+        {
+            // We take only columns with values
+            if (array_key_exists($col, $values))
+                $paramNames[] = "$col = :$col";
+        }
         $paramNames = implode(',', $paramNames);
 
         $sql = "INSERT INTO {$this->table} ($columns) VALUES ($paramNames)";
@@ -62,11 +67,8 @@ abstract class Model
         // Assign values
         foreach ($this->columns as $col)
         {
-            if (!array_key_exists($col, $values))
-            {
-                throw new Exception('Missing value for column: ' . $col);
-            }
-            $stmt->bindValue(':' . $col, $values[$col]);
+            if (array_key_exists($col, $values))
+                $stmt->bindValue(':' . $col, $values[$col]);
         }
 
         $stmt->execute();
@@ -83,7 +85,12 @@ abstract class Model
         $columns = implode(',', $this->columns);
 
         // Construct col = :col for all columns
-        $paramNames = array_map(function($col) { return "$col = :$col"; }, $this->columns);
+        foreach ($this->columns as $col)
+        {
+            // We take only columns with values
+            if (array_key_exists($col, $values))
+                $paramNames[] = "$col = :$col";
+        }
         $paramNames = implode(',', $paramNames);
 
         $sql = "UPDATE {$this->table} SET $paramNames WHERE id = :id";
@@ -92,11 +99,8 @@ abstract class Model
         // Assign values
         foreach ($this->columns as $col)
         {
-            if (!array_key_exists($col, $values))
-            {
-                throw new Exception('Missing value for column: ' . $col);
-            }
-            $stmt->bindValue(':' . $col, $values[$col]);
+            if (array_key_exists($col, $values))
+                $stmt->bindValue(':' . $col, $values[$col]);
         }
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
 

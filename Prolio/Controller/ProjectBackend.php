@@ -69,7 +69,8 @@ class ProjectBackend
             // All post values
             $values = $request->post();
 
-            $values['image'] = $this->upload();
+            if ($image = $this->upload())
+                $values['image'] = $image;
 
             // Create project
             if (is_null($project_id))

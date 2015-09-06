@@ -1,6 +1,8 @@
 {% extends "_base.twig" %}
 {% block content %}
-    <h2>Accueil</h2>
-
-    {{ page.content }}
+    <div class="jumbotron">
+        <h1>Prolio</h1>
+        <p>{{ page.content }}</p>
+        <p><a href="{{ urlFor('projects') }}" class="btn btn-primary btn-lg" role="button">Découvrir les projets</a></p>
+    </div>
 {% endblock %}

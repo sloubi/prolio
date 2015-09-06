@@ -1,33 +1,55 @@
 {% set active_page = "projects" %}
 {% extends "_base.twig" %}
 {% block content %}
-    <h2>{{ project.name }}</h2>
-    <img src="/images/projects/{{ project.image }}" alt="{{ project.name }}" style="height: 100px;">
-    <ul>
-        <li>Version : {{ project.version }}</li>
-        {% if project.created_at %}
-            <li>Créé le {{ project.created_at }}</li>
-        {% endif %}
-        {% if project.updated_at %}
-            <li>Mis à jour : {{ project.updated_at }}</li>
-        {% endif %}
-        <li>
-            Tags : {{ tags }}
-        </li>
-    </ul>
-    <ul>
-        {% for button in buttons %}
-            <li>
-                <a href="{{ button.url }}" class="btn btn-default">
-                    {% if button.icon %}
-                        <span class="glyphicon {{ button.icon}}" aria-hidden="true"></span>
-                    {% endif %}
-                    {{ button.name }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-    <div class="desc">
+    <div class="page-header">
+        <h1>
+            {{ project.name }}
+            {% if project.version %}
+                <small>{{ project.version }}</small>
+            {% endif %}
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <img src="/images/projects/{{ project.image }}" alt="{{ project.name }}" class="project-image img-responsive">
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        {% if project.created_at %}
+                            <li>Créé le {{ project.created_at }}</li>
+                        {% endif %}
+                        {% if project.updated_at %}
+                            <li>Mis à jour le {{ project.updated_at }}</li>
+                        {% endif %}
+                        {% if project.version %}
+                            <li>Version {{ project.version }}</li>
+                        {% endif %}
+                        <li>
+                            Tags : {{ tags }}
+                        </li>
+                    </ul>
+
+                     <ul class="project-buttons">
+                        {% for button in buttons %}
+                            <li>
+                                <a href="{{ button.url }}" class="btn btn-info">
+                                    {% if button.icon %}
+                                        <span class="glyphicon {{ button.icon}}" aria-hidden="true"></span>
+                                    {% endif %}
+                                    {{ button.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-desc">
         {{ project.description }}
     </div>
 
@@ -45,4 +67,7 @@
             {% endfor %}
         </div>
     {% endif %}
+
+    <hr>
+    <a href="{{ urlFor('projects') }}">&laquo; retour à la liste</a>
 {% endblock %}

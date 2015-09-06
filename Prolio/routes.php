@@ -1,8 +1,6 @@
 <?php
 
-$app->get('/', function () use ($app) {
-    $app->render('index.twig');
-})->name('home');
+$app->get('/', '\Prolio\Controller\Home:index')->name('home');
 
 $app->get('/project/:id', '\Prolio\Controller\Project:get')->name('project');
 $app->get('/projects', '\Prolio\Controller\Project:all')->name('projects');
@@ -25,9 +23,9 @@ function checkAdminAccess()
 $app->group('/admin', function () use ($app) {
     $app->get('/login', '\Prolio\Controller\Backend:loginGet')->name('login');
     $app->post('/login', '\Prolio\Controller\Backend:loginPost');
-
-    $app->get('/', 'checkAdminAccess', '\Prolio\Controller\Backend:index')->name('admin');
     $app->get('/logout', 'checkAdminAccess', '\Prolio\Controller\Backend:logout')->name('logout');
+
+    $app->map('/', 'checkAdminAccess', '\Prolio\Controller\Backend:index')->via('GET', 'POST')->name('admin');
 
     $app->get('/project/list', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:all')->name('project_list');
 

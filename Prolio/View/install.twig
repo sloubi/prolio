@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <title>Prolio Installation</title>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="page-header">
+              <h1>Installation de Prolio</h1>
+            </div>
+        </header>
+
+         {% if error %}
+            <div class="alert alert-warning" role="alert">
+                <span class="glyphicon glyphicon-remove"></span>
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form action="{{ urlFor('install') }}" method="post">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Utilisateur</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="email">Votre email</label>
+                        <input type="email" class="form-control" name="email" id="email" value="{{ post.email }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Administration</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="admin_link">Lien vers l'administration</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">{{ host }}/</span>
+                            <input type="text" class="form-control" name="admin_link" id="admin_link" placeholder="my-prolio-admin" value="{{ post.admin_link }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Votre mot de passe pour l'administration</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Base de données</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="db_name">Nom de la base de données</label>
+                        <input type="text" class="form-control" name="db_name" id="db_name" value="{{ post.db_name ?: 'prolio' }}" placeholder="prolio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="db_user">Identifiant MySQL</label>
+                        <input type="text" class="form-control" name="db_user" id="db_user" value="{{ post.db_user }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="db_pass">Mot de passe</label>
+                        <input type="text" class="form-control" name="db_pass" id="db_pass">
+                    </div>
+                    <div class="form-group">
+                        <label for="db_host">Adresse de la base de données</label>
+                        <input type="text" class="form-control" name="db_host" id="db_host" placeholder="localhost" value="{{ post.db_host ?: 'localhost' }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                <input type="submit" class="btn btn-primary btn-lg" value="Installer">
+            </p>
+        </form>
+    </div>
+</body>
+</html>

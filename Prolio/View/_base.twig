@@ -29,6 +29,13 @@
             <h1><a href="{{ baseUrl() }}">{{ siteTitle }}</a></h1>
         </header>
 
+        {% if flash.success %}
+            <div class="alert alert-success" role="alert">
+                <span class="glyphicon glyphicon-ok"></span>
+                {{ flash.success }}
+            </div>
+        {% endif %}
+
         {% block content %} {% endblock %}
 
         <footer>

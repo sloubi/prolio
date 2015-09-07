@@ -9,9 +9,13 @@ require '../vendor/autoload.php';
 $app = new \Slim\Slim();
 
 // Configuration
-$app->config('mode', 'development');
-require '../Prolio/config.php';
 DEFINE('PUBLIC_DIR', dirname(__FILE__));
+$config = false;
+if (file_exists('../Prolio/config.php'))
+{
+    require '../Prolio/config.php';
+    $app->config($config);
+}
 
 // Session
 session_cache_limiter(false);
@@ -22,8 +26,11 @@ $debugbar = new \Slim\Middleware\DebugBar();
 $app->add($debugbar);
 
 // Database
-$dbConfig = $app->config('database');
-\Prolio\Model\Spdo::setMysqlParams($dbConfig['host'], $dbConfig['name'], $dbConfig['user'], $dbConfig['pass']);
+if ($config)
+{
+    $dbConfig = $app->config('database');
+    \Prolio\Model\Spdo::setMysqlParams($dbConfig['host'], $dbConfig['name'], $dbConfig['user'], $dbConfig['pass']);
+}
 
 // View
 $app->view = new \Slim\Views\Twig();
@@ -35,12 +42,22 @@ $app->view->parserOptions = array(
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
 // Title
-$pageModel = new \Prolio\Model\Page();
-$home = $pageModel->getBySlug('home');
-$app->view->getInstance()->addGlobal('siteTitle', $home->name);
+if ($config)
+{
+    $pageModel = new \Prolio\Model\Page();
+    $home = $pageModel->getBySlug('home');
+    $app->view->getInstance()->addGlobal('siteTitle', $home->name);
+}
 
 // Routes
-require '../Prolio/routes.php';
+if ($config)
+{
+    require '../Prolio/routes.php';
+}
+else
+{
+    $app->get('/', '\Prolio\Controller\Install:index')->via('GET', 'POST')->name('install');
+}
 
 // Go
 $app->run();

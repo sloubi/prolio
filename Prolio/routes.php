@@ -20,7 +20,7 @@ function checkAdminAccess()
     }
 }
 
-$app->group('/admin', function () use ($app) {
+$app->group('/' . $config['user']['adminLink'], function () use ($app) {
     $app->get('/login', '\Prolio\Controller\Backend:loginGet')->name('login');
     $app->post('/login', '\Prolio\Controller\Backend:loginPost');
     $app->get('/logout', 'checkAdminAccess', '\Prolio\Controller\Backend:logout')->name('logout');

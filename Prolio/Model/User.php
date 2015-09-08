@@ -4,9 +4,15 @@ namespace Prolio\Model;
 
 class User
 {
-    public function check($password, $hash)
+    public function __construct()
     {
-        return password_verify($password, $hash);
+        $this->email = $this->app->config('user')['email'];
+        $this->password = $this->app->config('user')['password'];
+    }
+
+    public function check($password)
+    {
+        return password_verify($password, $this->password);
     }
 
     public function login()

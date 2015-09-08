@@ -19,10 +19,9 @@ class Backend
     public function loginPost()
     {
         $password = $this->app->request->post('password');
-        $hash = $this->app->config('user')['password'];
 
         // Success
-        if ($this->user->check($password, $hash))
+        if ($this->user->check($password))
         {
             $this->user->login();
             $this->app->redirect('/admin');

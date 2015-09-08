@@ -6,6 +6,9 @@ class User
 {
     public function __construct()
     {
+        global $app;
+        $this->app = $app;
+
         $this->email = $this->app->config('user')['email'];
         $this->password = $this->app->config('user')['password'];
     }

@@ -45,6 +45,10 @@ footer {
 .form-signin input[type="password"] {
     margin-bottom: 14px;
 }
+.btn-back {
+    display: block;
+    margin-top: 10px;
+}
 .form-actions {
     padding: 19px 20px 20px;
     margin-top: 20px;

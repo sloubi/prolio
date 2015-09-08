@@ -16,7 +16,7 @@ function checkAdminAccess()
     if (!$user->isLogged())
     {
         $app = \Slim\Slim::getInstance();
-        $app->redirect('/admin/login');
+        $app->redirect($app->urlFor('login'), 401);
     }
 }
 

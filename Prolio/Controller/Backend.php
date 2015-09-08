@@ -24,7 +24,7 @@ class Backend
         if ($this->user->check($password))
         {
             $this->user->login();
-            $this->app->redirect('/admin');
+            $this->app->redirect($this->app->urlFor('admin'));
         }
         // Invalid credentials
         else
@@ -38,7 +38,7 @@ class Backend
     public function logout()
     {
         $this->user->logout();
-        $this->app->redirect('/admin');
+        $this->app->redirect($this->app->urlFor('admin'));
     }
 
     public function index()
@@ -51,7 +51,7 @@ class Backend
             $pageModel->update($this->app->request->post(), $page->id);
 
             $this->app->flash('success', 'Accueil modifié');
-            $this->app->redirect('/admin');
+            $this->app->redirect($this->app->urlFor('admin'));
         }
 
         $this->app->render('backend/index.twig', [

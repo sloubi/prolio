@@ -29,23 +29,27 @@
                         {% if project.version %}
                             <li>Version {{ project.version }}</li>
                         {% endif %}
-                        <li>
-                            Tags : {{ tags }}
-                        </li>
+                        {% if buttons %}
+                            <li>
+                                Tags : {{ tags }}
+                            </li>
+                        {% endif %}
                     </ul>
 
-                     <ul class="project-buttons">
-                        {% for button in buttons %}
-                            <li>
-                                <a href="{{ button.url }}" class="btn btn-info">
-                                    {% if button.icon %}
-                                        <span class="glyphicon {{ button.icon}}" aria-hidden="true"></span>
-                                    {% endif %}
-                                    {{ button.name }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    {% if buttons %}
+                        <ul class="project-buttons">
+                            {% for button in buttons %}
+                                <li>
+                                    <a href="{{ button.url }}" class="btn btn-info">
+                                        {% if button.icon %}
+                                            <span class="glyphicon {{ button.icon}}" aria-hidden="true"></span>
+                                        {% endif %}
+                                        {{ button.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         </div>

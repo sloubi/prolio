@@ -2,7 +2,10 @@
 {% block content %}
     <h2>Liste des projets</h2>
 
-    <a href="{{ urlFor('project_add') }}" class="btn btn-success">Ajouter un projet</a>
+    <a href="{{ urlFor('project_add') }}" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span>
+        Ajouter un projet
+    </a>
 
     {% if projects %}
         <table class="table table-striped">

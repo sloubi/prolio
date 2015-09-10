@@ -32,7 +32,8 @@ class ProjectBackend
         $this->app->render('backend/project_form.twig', [
             'error'   => false,
             'tags'    => $tags,
-            'buttons' => $buttons
+            'buttons' => $buttons,
+            'post'    => $this->app->request->post()
         ]);
     }
 
@@ -64,14 +65,11 @@ class ProjectBackend
         $description  = $request->post('description');
 
         // Required fields
-        if ($name && $extract && $description)
+        if ($name && $extract && $description && $image = $this->upload($project_id))
         {
             // All post values
             $values = $request->post();
-
-            // Upload
-            if ($image = $this->upload($project_id))
-                $values['image'] = $image;
+            $values['image'] = $image;
 
             // Create project
             if (is_null($project_id))
@@ -89,7 +87,7 @@ class ProjectBackend
             $this->tagModel->attachProject($project_id, $request->post('tags', []));
             $this->buttonModel->attachProject($project_id, $request->post('buttons', []));
 
-            $this->app->redirect('/admin/project/list');
+            $this->app->redirect($this->app->urlFor('project_list'));
         }
         // Error
         else
@@ -123,6 +121,6 @@ class ProjectBackend
         $this->projectModel->delete($project_id);
 
         $this->app->flash('success', 'Projet supprimé');
-        $this->app->redirect('/admin/project/list');
+        $this->app->redirect($this->app->urlFor('project_list'));
     }
 }

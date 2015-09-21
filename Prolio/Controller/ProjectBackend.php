@@ -64,12 +64,18 @@ class ProjectBackend
         $extract      = $request->post('extract');
         $description  = $request->post('description');
 
+        // Upload image
+        $image = $this->upload($project_id);
+        // Image is required only for new project
+        $hasImage = is_null($project_id) && $image || $project_id;
+
         // Required fields
-        if ($name && $extract && $description && $image = $this->upload($project_id))
+        if ($name && $extract && $description && $hasImage)
         {
             // All post values
             $values = $request->post();
-            $values['image'] = $image;
+            if ($image)
+                $values['image'] = $image;
 
             // Create project
             if (is_null($project_id))
@@ -106,7 +112,7 @@ class ProjectBackend
         if ($project_id)
         {
             $project = $this->projectModel->get($project_id);
-            if (file_exists(PUBLIC_DIR . '/images/projects/' . $project->image))
+            if (is_file(PUBLIC_DIR . '/images/projects/' . $project->image))
                 unlink(PUBLIC_DIR . '/images/projects/' . $project->image);
         }
 

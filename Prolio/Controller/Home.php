@@ -17,7 +17,8 @@ class Home
         $page = $pageModel->getBySlug('home');
 
         $projects = false;
-        if ($this->app->config('site.fullhome'))
+        $configSite = $this->app->config('site');
+        if (!empty($configSite['fullhome']))
         {
             $projectModel = new \Prolio\Model\Project();
             $projects = $projectModel->all(true);

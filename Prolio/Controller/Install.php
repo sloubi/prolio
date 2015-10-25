@@ -43,7 +43,6 @@ class Install
     public function writeConfig()
     {
         $config = array(
-            'debug' => false,
             'database' => array(
                 'host' => $this->app->request->post('db_host'),
                 'port' => '',

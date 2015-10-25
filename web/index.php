@@ -1,7 +1,18 @@
 <?php
 
-error_reporting(-1);
-ini_set("display_errors", 1);
+// Get environment
+// if host ends with ".local" then we are on the dev environment
+$environment = (strpos($_SERVER['HTTP_HOST'], '.local') === strlen($_SERVER['HTTP_HOST']) - 6) ? 'dev' : 'prod';
+if ($environment == 'dev')
+{
+    error_reporting(-1);
+    ini_set("display_errors", 1);
+}
+else
+{
+    error_reporting(0);
+    ini_set("display_errors", 0);
+}
 
 require '../vendor/autoload.php';
 
@@ -36,8 +47,11 @@ session_cache_limiter(false);
 session_start();
 
 // Debug
-$debugbar = new \Slim\Middleware\DebugBar();
-$app->add($debugbar);
+if ($environment == 'dev')
+{
+    $debugbar = new \Slim\Middleware\DebugBar();
+    $app->add($debugbar);
+}
 
 // Database
 $dbConfig = $app->config('database');

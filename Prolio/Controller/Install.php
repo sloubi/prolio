@@ -54,6 +54,9 @@ class Install
                 'email' => $this->app->request->post('email'),
                 'password' => password_hash($this->app->request->post('password'), PASSWORD_DEFAULT),
                 'adminLink' => $this->app->request->post('admin_link')
+            ),
+            'site' => array(
+                'theme' => 'default'
             )
         );
         $configString = '<?php' . "\n" . '$config = ' . var_export($config, true) . ';';

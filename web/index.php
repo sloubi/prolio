@@ -23,7 +23,7 @@ $app = new \Slim\Slim();
 
 // View
 $app->view = new \Slim\Views\Twig();
-$app->view->setTemplatesDirectory("../Prolio/View");
+$app->view->setTemplatesDirectory('../themes/default');
 $app->view->parserOptions = array(
     'debug' => true,
     'cache' => dirname(__FILE__) . '/../cache'
@@ -41,6 +41,7 @@ if (!file_exists('../config/config.php'))
 // Configuration
 require '../config/config.php';
 $app->config($config);
+$app->view->setTemplatesDirectory('../themes/' . $config['site']['theme']);
 
 // Session
 session_cache_limiter(false);

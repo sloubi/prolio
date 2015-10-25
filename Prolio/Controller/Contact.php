@@ -35,9 +35,18 @@ class Contact
         // Send email
         else
         {
-            $to = $this->app->config('user')['email'];
-            $message = htmlspecialchars($this->app->request->post('message'));
-            mail($to, 'Contact from Prolio', $message);
+            $globals = $this->app->view->getInstance()->getGlobals();
+            $siteTitle = $globals['siteTitle'];
+            $to        = $this->app->config('user')['email'];
+            $fromEmail = $this->app->request->post('email');
+            $fromName  = $this->app->request->post('name');
+            $message   = htmlspecialchars($this->app->request->post('message'));
+
+            $headers  = "To: $to\r\n";
+            $headers .= "From: $fromName <$fromEmail>\r\n";
+            $headers .= "Reply-To: $fromName <$fromEmail>\r\n";
+
+            mail($to, "Contact from $siteTitle", $message, $headers);
         }
 
         $this->app->render('contact.twig', [

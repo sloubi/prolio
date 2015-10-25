@@ -49,10 +49,19 @@ class Contact
             mail($to, "Contact from $siteTitle", $message, $headers);
         }
 
-        $this->app->render('contact.twig', [
+        $result = [
             'sent' => empty($error),
             'error' => $error
-        ]);
+        ];
+
+        if ($this->app->request->isAjax())
+        {
+            echo json_encode($result);
+        }
+        else
+        {
+            $this->app->render('contact.twig', $result);
+        }
     }
 
 }

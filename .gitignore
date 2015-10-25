@@ -2,4 +2,4 @@
 /cache
 composer.lock
 /web/images/projects
-/Prolio/config.php
+/config/config.php

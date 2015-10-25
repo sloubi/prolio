@@ -59,7 +59,7 @@ class Install
         );
         $configString = '<?php' . "\n" . '$config = ' . var_export($config, true) . ';';
 
-        file_put_contents(PUBLIC_DIR . '/../Prolio/config.php', $configString);
+        file_put_contents(PUBLIC_DIR . '/../config/config.php', $configString);
     }
 
     public function isDBConnexionOK()

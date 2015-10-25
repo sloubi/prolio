@@ -11,9 +11,9 @@ $app = new \Slim\Slim();
 // Configuration
 DEFINE('PUBLIC_DIR', dirname(__FILE__));
 $config = false;
-if (file_exists('../Prolio/config.php'))
+if (file_exists('../config/config.php'))
 {
-    require '../Prolio/config.php';
+    require '../config/config.php';
     $app->config($config);
 }
 
@@ -52,7 +52,7 @@ if ($config)
 // Routes
 if ($config)
 {
-    require '../Prolio/routes.php';
+    require '../config/routes.php';
 }
 else
 {

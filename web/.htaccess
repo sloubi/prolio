@@ -1,5 +1,6 @@
-RewriteEngine On
+Options All -Indexes
 
+RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]

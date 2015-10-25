@@ -16,6 +16,24 @@ class Project extends Model
     ];
 
     /**
+     * Get all projects
+     * @param  boolean $full Project with all data (buttons, tags...)
+     * @return array
+     */
+    public function all($full = false)
+    {
+        $projects = parent::all();
+
+        if ($full)
+        {
+            $this->addTags($projects);
+            $this->addButtons($projects);
+        }
+
+        return $projects;
+    }
+
+    /**
      * Add related tags to projects
      * @param array $projects Array of project object
      */
@@ -28,6 +46,21 @@ class Project extends Model
             $tags = $tagModel->getAllByProject($project->id);
             $tags = $tagModel->tagsToString($tags);
             $project->tags = $tags;
+        }
+    }
+
+    /**
+     * Add related buttons to projects
+     * @param array $projects Array of project object
+     */
+    public function addButtons(array $projects)
+    {
+        $buttonModel = new \Prolio\Model\Button();
+
+        foreach ($projects as $project)
+        {
+            $buttons = $buttonModel->getAllByProject($project->id);
+            $project->buttons = $buttons;
         }
     }
 

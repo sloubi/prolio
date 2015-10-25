@@ -16,8 +16,16 @@ class Home
         $pageModel = new \Prolio\Model\Page();
         $page = $pageModel->getBySlug('home');
 
+        $projects = false;
+        if ($this->app->config('site.fullhome'))
+        {
+            $projectModel = new \Prolio\Model\Project();
+            $projects = $projectModel->all(true);
+        }
+        
         $this->app->render('index.twig', [
-            'page' => $page
+            'page' => $page,
+            'projects' => $projects
         ]);
     }
 

@@ -64,7 +64,10 @@
 
         <div class="row">
             <div class="col-md-6">
-                <h3>Boutons</h3>
+                <h3>
+                    Boutons
+                    <button id="button-show-modal" type="button" class="btn btn-default btn-sm">Ajouter un bouton</button>
+                </h3>
 
                 <table id="button-list" class="table table-striped">
                     {% for button in project.buttons %}
@@ -85,8 +88,6 @@
                     {% endfor %}
                 </table>
 
-                <button id="button-show-modal" type="button" class="btn btn-default btn-sm">Ajouter un bouton</button>
-                
                 <div id="button-modal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -119,17 +120,42 @@
             </div>
 
             <div class="col-md-6">
-                <h3>Tags</h3>
-                <div class="form-group">
+                <h3>
+                    Tags
+                    <button id="tag-show-modal" type="button" class="btn btn-default btn-sm">Ajouter un tag</button>
+                </h3>
+
+                <div class="row" id="tag-list">
                     {% for tag in tags %}
-                        <div class="checkbox">
-                            <label>
+                        <div class="col-md-6">
+                            <label class="checkbox-inline">
                                 <input type="checkbox" name="tags[]" value="{{ tag.id }}" {% if tag.id in project.tags %}checked{% endif %}>
                                 {{ tag.name }}
                             </label>
                         </div>
                     {% endfor %}
                 </div>
+
+                <div id="tag-modal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Ajout d'un tag</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="tag">Tag *</label>
+                                    <input type="text" class="form-control" name="tag" id="tag" value="{{ post ? post.tag : '' }}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                <button type="button" class="btn btn-primary" id="tag-add">Ajouter</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
             </div>
         </div>
 
@@ -199,6 +225,27 @@
             e.preventDefault();
             $(this).closest('tr').remove();
         });
+
+        $('#tag-show-modal').click(function (e) {
+            e.preventDefault();
+            showTagModal();
+        });
+
+        $('#tag-add').click(function (e) {
+            e.preventDefault();
+            $('#tag-modal').modal('hide');
+            
+            var tagName = $('#tag').val();
+            $('#tag-list').append(
+                '<div class="col-md-6">' +
+                    '<label class="checkbox-inline">' +
+                        '<input type="checkbox" name="tags[]" value="' + tagName + '" checked>' +
+                        tagName + 
+                    '</label>' +
+                '</div>'
+            );
+
+        });
     });
 
     function getNextIndex() {
@@ -222,6 +269,17 @@
             })
             .on('hidden.bs.modal', function () {
                 emptyButtonInputs();
+            });
+    }
+
+    function showTagModal() {
+        $('#tag-modal')
+            .modal('show')
+            .on('shown.bs.modal', function () {
+                $('#tag').focus();
+            })
+            .on('hidden.bs.modal', function () {
+                $('#tag').val('');
             });
     }
     </script>

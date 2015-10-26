@@ -101,12 +101,6 @@ class Install
               `name` varchar(32) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            INSERT INTO `tags` (`id`, `name`) VALUES
-            (1, 'php'),
-            (2, 'html'),
-            (3, 'jeu'),
-            (4, 'svg');
-
             CREATE TABLE IF NOT EXISTS `pages` (
               `id` int(11) NOT NULL,
               `name` varchar(255) NOT NULL,
@@ -115,7 +109,7 @@ class Install
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
             INSERT INTO `pages` (`id`, `name`, `slug`, `content`) VALUES
-            (1, 'Sloubi', 'home', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut sapiente dolor porro maiores recusandae excepturi possimus, distinctio, explicabo dolore! Vitae eum animi consectetur aliquam reprehenderit eos voluptatem, nobis optio, velit reiciendis praesentium placeat rerum fugiat autem unde, dolorem ratione natus eligendi a quam qui. Distinctio provident, esse eos ex nulla?');
+            (1, 'Prolio', 'home', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut sapiente dolor porro maiores recusandae excepturi possimus, distinctio, explicabo dolore! Vitae eum animi consectetur aliquam reprehenderit eos voluptatem, nobis optio, velit reiciendis praesentium placeat rerum fugiat autem unde, dolorem ratione natus eligendi a quam qui. Distinctio provident, esse eos ex nulla?');
 
             CREATE TABLE IF NOT EXISTS `projects` (
               `id` int(11) NOT NULL,

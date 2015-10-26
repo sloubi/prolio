@@ -5,6 +5,9 @@ namespace Prolio\Model;
 class Tag extends Model
 {
     protected $table = 'tags';
+    protected $columns = [
+        'name'
+    ];
 
     public function __construct()
     {
@@ -90,6 +93,12 @@ class Tag extends Model
 
         foreach ($tags as $tag_id)
         {
+            // Create new tag
+            if (!is_numeric($tag_id))
+            {
+                $tag_id = $this->create(['name' => $tag_id]);
+            }
+
             $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
             $stmt->bindValue(':tag_id', $tag_id, \PDO::PARAM_INT);
             $stmt->execute();

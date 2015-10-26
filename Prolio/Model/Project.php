@@ -26,7 +26,7 @@ class Project extends Model
 
         if ($full)
         {
-            $this->addTags($projects);
+            $this->addTags($projects, false);
             $this->addButtons($projects);
         }
 
@@ -36,15 +36,17 @@ class Project extends Model
     /**
      * Add related tags to projects
      * @param array $projects Array of project object
+     * @param bool  $toString Convert to string
      */
-    public function addTags(array $projects)
+    public function addTags(array $projects, $toString = true)
     {
         $tagModel = new \Prolio\Model\Tag();
 
         foreach ($projects as $project)
         {
             $tags = $tagModel->getAllByProject($project->id);
-            $tags = $tagModel->tagsToString($tags);
+            if ($toString)
+                $tags = $tagModel->tagsToString($tags);
             $project->tags = $tags;
         }
     }

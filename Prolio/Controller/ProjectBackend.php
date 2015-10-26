@@ -27,12 +27,10 @@ class ProjectBackend
     public function add()
     {
         $tags = $this->tagModel->all();
-        $buttons = $this->buttonModel->all();
 
         $this->app->render('backend/project_form.twig', [
             'error'   => false,
             'tags'    => $tags,
-            'buttons' => $buttons,
             'post'    => $this->app->request->post()
         ]);
     }
@@ -40,16 +38,14 @@ class ProjectBackend
     public function edit($project_id)
     {
         $tags = $this->tagModel->all();
-        $buttons = $this->buttonModel->all();
 
         $project = $this->projectModel->get($project_id);
         $project->tags = $this->tagModel->getIdByProject($project_id);
-        $project->buttons = $this->buttonModel->getIdByProject($project_id);
+        $project->buttons = $this->buttonModel->getAllByProject($project_id);
 
         $this->app->render('backend/project_form.twig', [
             'error'   => false,
             'tags'    => $tags,
-            'buttons' => $buttons,
             'project' => $project,
             'edit'    => true,
             'post'    => $this->app->request->post()

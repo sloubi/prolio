@@ -90,15 +90,11 @@ class Install
         $sql = 
             "CREATE TABLE IF NOT EXISTS `buttons` (
               `id` int(11) NOT NULL,
-              `name` varchar(32) NOT NULL,
-              `icon` varchar(32) NOT NULL
+              `project_id` int(11) NOT NULL,
+              `name` varchar(64) NOT NULL,
+              `icon` varchar(64) NOT NULL
+              `url` varchar(255) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-            INSERT INTO `buttons` (`id`, `name`, `icon`) VALUES
-            (1, 'Jouer', 'glyphicon-play'),
-            (2, 'Télécharger', 'glyphicon-download'),
-            (3, 'Télécharger les sources', 'glyphicon-eye-open'),
-            (4, 'Lancer l''application', 'glyphicon-flash');
 
             CREATE TABLE IF NOT EXISTS `tags` (
               `id` int(11) NOT NULL,
@@ -132,12 +128,6 @@ class Install
               `updated_at` date DEFAULT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            CREATE TABLE IF NOT EXISTS `projects_buttons` (
-              `project_id` int(11) NOT NULL,
-              `button_id` int(11) NOT NULL,
-              `url` varchar(255) NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
             CREATE TABLE IF NOT EXISTS `projects_images` (
               `id` int(11) NOT NULL,
               `project_id` int(11) NOT NULL,
@@ -160,9 +150,6 @@ class Install
             ALTER TABLE `projects`
               ADD PRIMARY KEY (`id`);
 
-            ALTER TABLE `projects_buttons`
-              ADD PRIMARY KEY (`project_id`,`button_id`);
-
             ALTER TABLE `projects_images`
               ADD PRIMARY KEY (`id`);
 
@@ -173,7 +160,7 @@ class Install
               ADD PRIMARY KEY (`id`);
 
             ALTER TABLE `buttons`
-              MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+              MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
             ALTER TABLE `pages`
               MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
             ALTER TABLE `projects`

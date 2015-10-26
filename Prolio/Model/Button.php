@@ -13,10 +13,9 @@ class Button extends Model
      */
     public function getAllByProject($project_id)
     {
-        $sql = "SELECT b.id, b.name, b.icon, pb.url
+        $sql = "SELECT b.id, b.name, b.icon, b.url
                 FROM {$this->table} b
-                INNER JOIN projects_buttons pb ON pb.button_id = b.id
-                WHERE pb.project_id = :project_id";
+                WHERE b.project_id = :project_id";
 
         $query = $this->db->prepare($sql);
         $query->execute([':project_id' => $project_id]);
@@ -25,47 +24,29 @@ class Button extends Model
     }
 
     /**
-     * Get button ID/url related to a project in a nice array
-     * @param int $project_id Id of project
-     * @return array
-     */
-    public function getIdByProject($project_id)
-    {
-        $buttons = $this->getAllByProject($project_id);
-        $pretty = array();
-        foreach ($buttons as $button)
-        {
-            $pretty[$button->id] = $button->url;
-        }
-        return $pretty;
-    }
-
-    /**
      * Attach some buttons to a project
      * @param  int $project_id 
-     * @param  array  $buttons  [button_id => url]
+     * @param  array  $buttons
      */
     public function attachProject($project_id, array $buttons)
     {
         // Remove previous buttons
-        $sql = "DELETE FROM projects_buttons WHERE project_id = :project_id";
+        $sql = "DELETE FROM buttons WHERE project_id = :project_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
         $stmt->execute();
 
         // Attach some buttons
-        $sql = "INSERT INTO projects_buttons (project_id, button_id, url) VALUES (:project_id, :button_id, :url)";
+        $sql = "INSERT INTO buttons (project_id, name, icon, url) VALUES (:project_id, :name, :icon, :url)";
         $stmt = $this->db->prepare($sql);
 
-        foreach ($buttons as $button_id => $url)
+        foreach ($buttons as $button)
         {
-            if (!empty($url))
-            {
-                $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
-                $stmt->bindValue(':button_id', $button_id, \PDO::PARAM_INT);
-                $stmt->bindValue(':url', $url, \PDO::PARAM_STR);
-                $stmt->execute();
-            }
+            $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
+            $stmt->bindValue(':name', $button['name'], \PDO::PARAM_STR);
+            $stmt->bindValue(':icon', $button['icon'], \PDO::PARAM_STR);
+            $stmt->bindValue(':url', $button['url'], \PDO::PARAM_STR);
+            $stmt->execute();
         }
     }
 

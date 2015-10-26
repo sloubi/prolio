@@ -1,7 +1,4 @@
 {
-    "name":"test",
-    "homepage":"http://test.com",
-    "license":"MIT",
     "require":{
         "php": ">=5.5.0",
         "slim/slim": "~2.6",

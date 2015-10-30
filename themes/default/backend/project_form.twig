@@ -98,7 +98,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="button_name">Intitulé du bouton *</label>
-                                    <input type="text" class="form-control" name="button_name" id="button_name" value="{{ post ? post.button_name : '' }}">
+                                    <input type="text" class="form-control required" name="button_name" id="button_name" value="{{ post ? post.button_name : '' }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="button_icon">Icône</label>
@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="button_url">Url *</label>
-                                    <input type="text" class="form-control" name="button_url" id="button_url" value="{{ post ? post.button_url : '' }}" placeholder="http://monprojet.com">
+                                    <input type="text" class="form-control required" name="button_url" id="button_url" value="{{ post ? post.button_url : '' }}" placeholder="http://monprojet.com">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -146,7 +146,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="tag">Tag *</label>
-                                    <input type="text" class="form-control" name="tag" id="tag" value="{{ post ? post.tag : '' }}">
+                                    <input type="text" class="form-control required" name="tag" id="tag" value="{{ post ? post.tag : '' }}">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -191,6 +191,17 @@
 
         $('#button-add').click(function (e) {
             e.preventDefault();
+
+            // Check required input
+            var error = false;
+            $('#button-modal .required').each(function () {
+                if ($(this).val() == '') {
+                    $(this).closest('.form-group').addClass('has-error');
+                    error = true;
+                }
+            });
+            if (error) return false;
+
             $('#button-modal').modal('hide');
 
             var index = getNextIndex();
@@ -233,6 +244,17 @@
 
         $('#tag-add').click(function (e) {
             e.preventDefault();
+
+            // Check required input
+            var error = false;
+            $('#tag-modal .required').each(function () {
+                if ($(this).val() == '') {
+                    $(this).closest('.form-group').addClass('has-error');
+                    error = true;
+                }
+            });
+            if (error) return false;
+
             $('#tag-modal').modal('hide');
             
             var tagName = $('#tag').val();

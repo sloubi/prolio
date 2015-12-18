@@ -29,6 +29,10 @@ class Project
         $tags = $tagModel->getAllByProject($project_id);
         $tags = $tagModel->tagsToString($tags);
 
+        $compModel = new \Prolio\Model\Compatibility();
+        $comps = $compModel->getAllByProject($project_id);
+        $comps = $compModel->compatibilitiesToString($comps);
+
         $buttonModel = new \Prolio\Model\Button();
         $buttons = $buttonModel->getAllByProject($project_id);
 
@@ -40,6 +44,7 @@ class Project
             $this->app->render('project.twig', [
                 'project' => $project,
                 'tags' => $tags,
+                'comps' => $comps,
                 'buttons' => $buttons,
                 'images' => $images
             ]);

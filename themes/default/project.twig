@@ -23,13 +23,22 @@
                         {% if project.created_at %}
                             <li>Créé le {{ project.created_at }}</li>
                         {% endif %}
+
                         {% if project.updated_at %}
                             <li>Mis à jour le {{ project.updated_at }}</li>
                         {% endif %}
+
                         {% if project.version %}
                             <li>Version {{ project.version }}</li>
                         {% endif %}
-                        {% if buttons %}
+
+                        {% if comps %}
+                            <li>
+                                Compatibilité : {{ comps }}
+                            </li>
+                        {% endif %}
+
+                        {% if tags %}
                             <li>
                                 Tags : {{ tags }}
                             </li>

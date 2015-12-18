@@ -11,6 +11,7 @@ class ProjectBackend
 
         $this->projectModel = new \Prolio\Model\Project();
         $this->tagModel = new \Prolio\Model\Tag();
+        $this->compModel = new \Prolio\Model\Compatibility();
         $this->buttonModel = new \Prolio\Model\Button();
     }
 
@@ -27,28 +28,35 @@ class ProjectBackend
     public function add()
     {
         $tags = $this->tagModel->all();
+        $compatibilities = $this->compModel->all();
 
         $this->app->render('backend/project_form.twig', [
-            'error'   => false,
-            'tags'    => $tags,
-            'post'    => $this->app->request->post()
+            'error'           => false,
+            'tags'            => $tags,
+            'compatibilities' => $compatibilities,
+            'post'            => $this->app->request->post()
         ]);
     }
 
     public function edit($project_id)
     {
         $tags = $this->tagModel->all();
+        $compatibilities = $this->compModel->all();
 
-        $project = $this->projectModel->get($project_id);
-        $project->tags = $this->tagModel->getIdByProject($project_id);
-        $project->buttons = $this->buttonModel->getAllByProject($project_id);
+        $project                  = $this->projectModel->get($project_id);
+        $project->tags            = $this->tagModel->getIdByProject($project_id);
+        $project->buttons         = $this->buttonModel->getAllByProject($project_id);
+        $project->compatibilities = array_map(function($e) {
+            return is_object($e) ? $e->id : $e['id'];
+        }, $this->compModel->getAllByProject($project_id));
 
         $this->app->render('backend/project_form.twig', [
-            'error'   => false,
-            'tags'    => $tags,
-            'project' => $project,
-            'edit'    => true,
-            'post'    => $this->app->request->post()
+            'error'           => false,
+            'tags'            => $tags,
+            'compatibilities' => $compatibilities,
+            'project'         => $project,
+            'edit'            => true,
+            'post'            => $this->app->request->post()
         ]);
     }
 
@@ -88,6 +96,7 @@ class ProjectBackend
 
             $this->tagModel->attachProject($project_id, $request->post('tags', []));
             $this->buttonModel->attachProject($project_id, $request->post('buttons', []));
+            $this->compModel->attachProject($project_id, $request->post('compatibilities', []));
 
             $this->app->redirect($this->app->urlFor('project_list'));
         }

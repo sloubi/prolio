@@ -1,10 +1,12 @@
 {% extends "backend/_base.twig" %}
 {% block content %}
-    {% if edit %}
-        <h2>Modifier le projet</h2>
-    {% else %}
-        <h2>Ajouter le projet</h2>
-    {% endif %}
+    <div class="page-header">
+        {% if edit %}
+            <h1>Modifier le projet</h1>
+        {% else %}
+            <h1>Ajouter le projet</h1>
+        {% endif %}
+    </div>
 
     <form action="{{ urlFor('project_process', {"id": project.id }) }}" method="post" enctype="multipart/form-data">
         <div class="row">

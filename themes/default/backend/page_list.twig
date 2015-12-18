@@ -1,0 +1,31 @@
+{% extends "backend/_base.twig" %}
+{% block content %}
+    <div class="page-header">
+        <h1>
+            Liste des pages
+        </h1>
+    </div>
+
+    {% if pages %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for page in pages %}
+                    <tr>
+                        <td>{{ page.id }}</td>
+                        <td>{{ page.name }}</td>
+                        <td>
+                            <a href="{{ urlFor('page_edit', {"id": page.id }) }}" class="btn btn-default">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

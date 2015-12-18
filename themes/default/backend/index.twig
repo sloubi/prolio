@@ -1,18 +1,5 @@
 {% extends "backend/_base.twig" %}
 {% block content %}
-    <h2>Accueil admin</h2>
-
-    <form action="{{ urlFor('admin') }}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="name">Titre du site</label>
-            <input type="text" class="form-control" name="name" id="name" value="{{ post ? post.name : page.name }}" required>
-        </div>
-        <div class="form-group">
-            <label for="content">Contenu de la page d'accueil</label>
-            <textarea class="form-control" name="content" id="content" rows="5" required>{{ post ? post.contenu : page.content }}</textarea>
-        </div>
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Enregistrer" >
-        </div>
-    </form>
+    <h2>Panneau d'administration</h2>
+    <p>Vous avez <a href="{{ urlFor('project_list') }}">{{ nbProjects }} projet{% if nbProjects > 1 %}s{% endif %}</a>.</p>
 {% endblock %}

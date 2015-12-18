@@ -43,6 +43,15 @@ abstract class Model
         return $stmt->fetch();
     }
 
+    public function count()
+    {
+        $sql = "SELECT COUNT(*) FROM {$this->table}";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchColumn();
+    }
+
     /**
      * Create a record in table
      * @param  array  $values

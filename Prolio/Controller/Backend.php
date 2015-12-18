@@ -43,20 +43,7 @@ class Backend
 
     public function index()
     {
-        $pageModel = new \Prolio\Model\Page();
-        $page = $pageModel->getBySlug('home');
-
-        if ($this->app->request->isPost())
-        {
-            $pageModel->update($this->app->request->post(), $page->id);
-
-            $this->app->flash('success', 'Accueil modifié');
-            $this->app->redirect($this->app->urlFor('admin'));
-        }
-
-        $this->app->render('backend/index.twig', [
-            'page' => $page
-        ]);
+        $this->app->redirect($this->app->urlFor('project_list'));
     }
 
 }

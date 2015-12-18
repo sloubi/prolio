@@ -28,10 +28,13 @@ $app->group('/' . $config['user']['adminLink'], function () use ($app) {
     $app->map('/', 'checkAdminAccess', '\Prolio\Controller\Backend:index')->via('GET', 'POST')->name('admin');
 
     $app->get('/project/list', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:all')->name('project_list');
-
     $app->get('/project/add', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:add')->name('project_add');
     $app->get('/project/edit/:id', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:edit')->name('project_edit');
     $app->post('/project/process/(:id)', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:process')->name('project_process');
-    
+
+    $app->get('/page/list', 'checkAdminAccess', '\Prolio\Controller\PageBackend:all')->name('page_list');
+    $app->get('/page/edit/:id', 'checkAdminAccess', '\Prolio\Controller\PageBackend:edit')->name('page_edit');
+    $app->post('/page/process/(:id)', 'checkAdminAccess', '\Prolio\Controller\PageBackend:process')->name('page_process');
+
     $app->get('/project/delete/:id', 'checkAdminAccess', '\Prolio\Controller\ProjectBackend:delete')->name('project_delete');
 });

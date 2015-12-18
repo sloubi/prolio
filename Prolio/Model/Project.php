@@ -109,7 +109,7 @@ class Project extends Model
         parent::delete($project_id);
 
         // Delete relations
-        $tables = ['projects_buttons', 'projects_images', 'projects_tags'];
+        $tables = ['buttons', 'projects_images', 'projects_tags'];
         foreach ($tables as $table)
         {
             $sql = "DELETE FROM $table WHERE project_id = :project_id";

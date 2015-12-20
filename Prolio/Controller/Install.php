@@ -87,12 +87,12 @@ class Install
 
     public function createTables()
     {
-        $sql = 
+        $sql =
             "CREATE TABLE IF NOT EXISTS `buttons` (
               `id` int(11) NOT NULL,
               `project_id` int(11) NOT NULL,
               `name` varchar(64) NOT NULL,
-              `icon` varchar(64) NOT NULL
+              `icon` varchar(64) NOT NULL,
               `url` varchar(255) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -162,7 +162,7 @@ class Install
             ALTER TABLE `projects_images`
               MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
             ALTER TABLE `tags`
-              MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;";
+              MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;";
 
         $this->pdo->exec($sql);
     }

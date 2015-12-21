@@ -93,7 +93,8 @@ class Install
               `project_id` int(11) NOT NULL,
               `name` varchar(64) NOT NULL,
               `icon` varchar(64) NOT NULL,
-              `url` varchar(255) NOT NULL
+              `url` varchar(255) NOT NULL,
+              `blank` tinyint(1) NOT NULL DEFAULT '0'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
             CREATE TABLE IF NOT EXISTS `tags` (

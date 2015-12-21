@@ -149,7 +149,7 @@
 
                 <table id="button-list" class="table table-striped">
                     {% for button in project.buttons %}
-                        <tr data-index="' + index + '">
+                        <tr data-index="{{ loop.index }}">
                             <td>
                                 {% if button.icon %}<i class="{{ button.icon }}"></i>{% endif %}
                                 {{ button.name }}
@@ -159,6 +159,7 @@
                                 <input type="hidden" class="button-name" name="buttons[{{ loop.index }}][name]" value="{{ button.name }}">
                                 <input type="hidden" class="button-icon" name="buttons[{{ loop.index }}][icon]" value="{{ button.icon }}">
                                 <input type="hidden" class="button-url" name="buttons[{{ loop.index }}][url]" value="{{ button.url }}">
+                                <input type="hidden" class="button-blank" name="buttons[{{ loop.index }}][blank]" value="{{ button.blank|number_format }}">
                                 <a href="#" class="button-edit">Modifier</a> -
                                 <a href="#" class="button-delete">Supprimer</a>
                             </td>
@@ -176,21 +177,28 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="button_name">Intitulé du bouton *</label>
-                                    <input type="text" class="form-control required" name="button_name" id="button_name" value="{{ post ? post.button_name : '' }}">
+                                    <input type="text" class="form-control required" name="button_name" id="button_name">
                                 </div>
                                 <div class="form-group">
                                     <label for="button_icon">Icône</label>
                                     <span class="help-block">Classe CSS de <a href="http://getbootstrap.com/components/#glyphicons" target="_blank">Bootstrap</a>. Exemple : glyphicon glyphicon-download</span>
-                                    <input type="text" class="form-control" name="button_icon" id="button_icon" value="{{ post ? post.button_icon : '' }}">
+                                    <input type="text" class="form-control" name="button_icon" id="button_icon">
                                 </div>
                                 <div class="form-group">
                                     <label for="button_url">Url *</label>
-                                    <input type="text" class="form-control required" name="button_url" id="button_url" value="{{ post ? post.button_url : '' }}" placeholder="http://monprojet.com">
+                                    <input type="text" class="form-control required" name="button_url" id="button_url" placeholder="http://monprojet.com">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="button_blank" id="button_blank">
+                                        Nouvelle page
+                                    </label>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                                 <button type="button" class="btn btn-primary" id="button-add">Ajouter</button>
+                                <button type="button" class="btn btn-primary" id="button-edit">Modifier</button>
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
@@ -223,54 +231,59 @@
     });
 
     $(function () {
+        var currentIndex = 0;
+
+        // Click on Add button
         $('#button-show-modal').click(function (e) {
             e.preventDefault();
-            showButtonModal();
+            showButtonModal(false);
         });
 
+        // Add a button
         $('#button-add').click(function (e) {
             e.preventDefault();
 
             // Check required input
-            var error = false;
-            $('#button-modal .required').each(function () {
-                if ($(this).val() == '') {
-                    $(this).closest('.form-group').addClass('has-error');
-                    error = true;
-                }
-            });
-            if (error) return false;
+            if (!isButtonFormValid()) return false;
 
             $('#button-modal').modal('hide');
 
             var index = getNextIndex();
 
-            $('#button-list').append(
-                '<tr data-index="' + index + '">' +
-                    '<td><i class="glyphicon glyphicon-' + $('#button_icon').val() + '"></i> ' +
-                    $('#button_name').val() + '</td>' +
-                    '<td>' + $('#button_url').val() + '</td>' +
-                    '<td>' +
-                        '<input type="hidden" class="button-name" name="buttons[' + index + '][name]" value="' + $('#button_name').val() + '">' +
-                        '<input type="hidden" class="button-icon" name="buttons[' + index + '][icon]" value="' + $('#button_icon').val() + '">' +
-                        '<input type="hidden" class="button-url"index.twig name="buttons[' + index + '][url]" value="' + $('#button_url').val() + '">' +
-                        '<a href="#" class="button-edit">Modifier</a> - ' +
-                        '<a href="#" class="button-delete">Supprimer</a>' +
-                    '</td>' +
-                '</tr>'
-            );
+            $('#button-list').append(buttonLine(index));
 
             emptyButtonInputs();
         });
 
+        // Modifiy a button
+        $('#button-edit').click(function (e) {
+            e.preventDefault();
+
+            // Check required input
+            if (!isButtonFormValid()) return false;
+
+            $('#button-modal').modal('hide');
+
+            $('#button-list tr[data-index="' + currentIndex + '"]').replaceWith(buttonLine(currentIndex));
+
+            emptyButtonInputs();
+        });
+
+        // Show modal edition button
         $(document).on("click", ".button-edit", function(e) {
             e.preventDefault();
             var $tr = $(this).closest('tr');
             $('#button_name').val($tr.find('.button-name').val());
             $('#button_icon').val($tr.find('.button-icon').val());
             $('#button_url').val($tr.find('.button-url').val());
-            showButtonModal();
+            if (parseInt($tr.find('.button-blank').val()))
+                $('#button_blank').prop('checked', true);
+
+            currentIndex = $tr.data('index');
+
+            showButtonModal(true);
         });
+
         $(document).on("click", ".button-delete", function(e) {
             e.preventDefault();
             $(this).closest('tr').remove();
@@ -320,9 +333,18 @@
 
     function emptyButtonInputs() {
         $('#button-modal .form-control').val('');
+        $('#button-modal input[type="checkbox"]').removeProp('checked');
     }
 
-    function showButtonModal() {
+    function showButtonModal(edit) {
+        if (edit) {
+            $('#button-add').hide();
+            $('#button-edit').show();
+        } else {
+            $('#button-add').show();
+            $('#button-edit').hide();
+        }
+
         $('#button-modal')
             .modal('show')
             .on('shown.bs.modal', function () {
@@ -342,6 +364,33 @@
             .on('hidden.bs.modal', function () {
                 $('#tag').val('');
             });
+    }
+
+    function isButtonFormValid() {
+        var isValid = true;
+        $('#button-modal .required').each(function () {
+            if ($(this).val() == '') {
+                $(this).closest('.form-group').addClass('has-error');
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+
+    function buttonLine(index) {
+        return '<tr data-index="' + index + '">' +
+            '<td><i class="glyphicon glyphicon-' + $('#button_icon').val() + '"></i> ' +
+            $('#button_name').val() + '</td>' +
+            '<td>' + $('#button_url').val() + '</td>' +
+            '<td>' +
+                '<input type="hidden" class="button-name" name="buttons[' + index + '][name]" value="' + $('#button_name').val() + '">' +
+                '<input type="hidden" class="button-icon" name="buttons[' + index + '][icon]" value="' + $('#button_icon').val() + '">' +
+                '<input type="hidden" class="button-url" name="buttons[' + index + '][url]" value="' + $('#button_url').val() + '">' +
+                '<input type="hidden" class="button-blank" name="buttons[' + index + '][blank]" value="' + ($('#button_blank').is(':checked') ? 1 : 0) + '">' +
+                '<a href="#" class="button-edit">Modifier</a> - ' +
+                '<a href="#" class="button-delete">Supprimer</a>' +
+            '</td>' +
+        '</tr>';
     }
     </script>
 {% endblock %}

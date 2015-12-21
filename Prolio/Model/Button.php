@@ -13,7 +13,7 @@ class Button extends Model
      */
     public function getAllByProject($project_id)
     {
-        $sql = "SELECT b.id, b.name, b.icon, b.url
+        $sql = "SELECT b.id, b.name, b.icon, b.url, b.blank
                 FROM {$this->table} b
                 WHERE b.project_id = :project_id";
 
@@ -25,7 +25,7 @@ class Button extends Model
 
     /**
      * Attach some buttons to a project
-     * @param  int $project_id 
+     * @param  int $project_id
      * @param  array  $buttons
      */
     public function attachProject($project_id, array $buttons)
@@ -37,7 +37,7 @@ class Button extends Model
         $stmt->execute();
 
         // Attach some buttons
-        $sql = "INSERT INTO buttons (project_id, name, icon, url) VALUES (:project_id, :name, :icon, :url)";
+        $sql = "INSERT INTO buttons (project_id, name, icon, url, blank) VALUES (:project_id, :name, :icon, :url, :blank)";
         $stmt = $this->db->prepare($sql);
 
         foreach ($buttons as $button)
@@ -46,6 +46,7 @@ class Button extends Model
             $stmt->bindValue(':name', $button['name'], \PDO::PARAM_STR);
             $stmt->bindValue(':icon', $button['icon'], \PDO::PARAM_STR);
             $stmt->bindValue(':url', $button['url'], \PDO::PARAM_STR);
+            $stmt->bindValue(':blank', $button['blank'], \PDO::PARAM_BOOL);
             $stmt->execute();
         }
     }

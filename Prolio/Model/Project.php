@@ -7,6 +7,7 @@ class Project extends Model
     protected $table = 'projects';
     protected $columns = [
         'name',
+        'slug',
         'image',
         'extract',
         'description',
@@ -31,6 +32,22 @@ class Project extends Model
         }
 
         return $projects;
+    }
+
+    /**
+     * Get a project by slug
+     * @param string $slug
+     * @return object
+     */
+    public function getBySlug($slug)
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE slug = :slug LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindValue(':slug', $slug, \PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch();
     }
 
     /**

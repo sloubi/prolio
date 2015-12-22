@@ -80,6 +80,7 @@ class ProjectBackend
             $values = $request->post();
             if ($image)
                 $values['image'] = $image;
+            $values['slug'] = \Prolio\Model\Model::slugify($values['name']);
 
             // Create project
             if (is_null($project_id))

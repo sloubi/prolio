@@ -2,7 +2,7 @@
 
 $app->get('/', '\Prolio\Controller\Home:index')->name('home');
 
-$app->get('/project/:id', '\Prolio\Controller\Project:get')->name('project');
+$app->get('/project/:slug', '\Prolio\Controller\Project:get')->name('project');
 $app->get('/projects', '\Prolio\Controller\Project:all')->name('projects');
 
 $app->get('/contact', '\Prolio\Controller\Contact:get')->name('contact');

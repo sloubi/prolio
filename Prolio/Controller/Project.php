@@ -21,23 +21,23 @@ class Project
         ]);
     }
 
-    public function get($project_id = null)
+    public function get($project_slug = null)
     {
-        $project = $this->model->get($project_id);
+        $project = $this->model->getBySlug($project_slug);
 
         $tagModel = new \Prolio\Model\Tag();
-        $tags = $tagModel->getAllByProject($project_id);
+        $tags = $tagModel->getAllByProject($project->id);
         $tags = $tagModel->tagsToString($tags);
 
         $compModel = new \Prolio\Model\Compatibility();
-        $comps = $compModel->getAllByProject($project_id);
+        $comps = $compModel->getAllByProject($project->id);
         $comps = $compModel->compatibilitiesToString($comps);
 
         $buttonModel = new \Prolio\Model\Button();
-        $buttons = $buttonModel->getAllByProject($project_id);
+        $buttons = $buttonModel->getAllByProject($project->id);
 
         $imageModel = new \Prolio\Model\Image();
-        $images = $imageModel->getAllByProject($project_id);
+        $images = $imageModel->getAllByProject($project->id);
 
         if ($project)
         {

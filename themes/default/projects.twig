@@ -9,7 +9,7 @@
         <div class="row">
             {% for project in projects %}
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <a href="{{ urlFor('project', {"id": project.id}) }}" class="thumbnail">
+                    <a href="{{ urlFor('project', {"slug": project.slug}) }}" class="thumbnail">
                         <img src="/images/projects/{{ project.image }}" alt="{{ project.name }}" style="height:150px;">
                         <div class="caption">
                             <h3>{{ project.name }} <small class="text-muted">{{ project.version }}</small></h3>

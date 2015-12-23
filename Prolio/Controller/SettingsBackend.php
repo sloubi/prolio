@@ -30,23 +30,11 @@ class SettingsBackend
 
     public function writeConfig($post, $config)
     {
-        $config = array(
-            'database' => array(
-                'host' => $config['database']['host'],
-                'port' => $config['database']['port'],
-                'name' => $config['database']['name'],
-                'user' => $config['database']['user'],
-                'pass' => $config['database']['pass']
-            ),
-            'user' => array(
-                'email'     => $post['email'],
-                'password'  => empty($post['password']) ? $config['user']['password'] : password_hash($this->app->request->post('password'), PASSWORD_DEFAULT),
-                'adminLink' => $post['adminlink']
-            ),
-            'site' => array(
-                'theme' => 'default'
-            )
-        );
+        $config['user']['email'] = $post['email'];
+        $config['user']['adminLink'] = $post['adminlink'];
+        if (!empty($post['password']))
+            $config['user']['password'] = password_hash($this->app->request->post('password'), PASSWORD_DEFAULT);
+
         $configString = '<?php' . "\n" . '$config = ' . var_export($config, true) . ';';
 
         file_put_contents(APP_DIR . '/config/config.php', $configString);

@@ -14,24 +14,25 @@ else
     ini_set("display_errors", 0);
 }
 
-require '../vendor/autoload.php';
 
 DEFINE('PUBLIC_DIR', __DIR__);
+DEFINE('APP_DIR', PUBLIC_DIR . '/..');
+
+require APP_DIR . '/vendor/autoload.php';
 
 // Initialize Slim
 $app = new \Slim\Slim();
 
 // View
 $app->view = new \Slim\Views\Twig();
-$app->view->setTemplatesDirectory('../themes/default');
 $app->view->parserOptions = array(
     'debug' => true,
-    'cache' => dirname(__FILE__) . '/../cache'
+    'cache' => APP_DIR . '/cache'
 );
 $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
 // Need install?
-if (!file_exists('../config/config.php'))
+if (!file_exists(APP_DIR . '/config/config.php'))
 {
     $app->get('/', '\Prolio\Controller\Install:index')->via('GET', 'POST')->name('install');
     $app->run();
@@ -39,9 +40,9 @@ if (!file_exists('../config/config.php'))
 }
 
 // Configuration
-require '../config/config.php';
+require APP_DIR . '/config/config.php';
 $app->config($config);
-$app->view->setTemplatesDirectory('../themes/' . $config['site']['theme']);
+$app->view->setTemplatesDirectory(APP_DIR . '/themes/' . $config['site']['theme']);
 
 // Session
 session_cache_limiter(false);
@@ -64,7 +65,7 @@ $home = $pageModel->getBySlug('home');
 $app->view->getInstance()->addGlobal('siteTitle', $home->name);
 
 // Routes
-require '../config/routes.php';
+require APP_DIR . '/config/routes.php';
 
 // Go
 $app->run();

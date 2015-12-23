@@ -12,7 +12,7 @@ class SettingsBackend
 
     public function index()
     {
-        require PUBLIC_DIR . '/../config/config.php';
+        require APP_DIR . '/config/config.php';
         $post = $this->app->request->post();
 
         if ($this->app->request->isPost())
@@ -49,6 +49,6 @@ class SettingsBackend
         );
         $configString = '<?php' . "\n" . '$config = ' . var_export($config, true) . ';';
 
-        file_put_contents(PUBLIC_DIR . '/../config/config.php', $configString);
+        file_put_contents(APP_DIR . '/config/config.php', $configString);
     }
 }

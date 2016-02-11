@@ -31,13 +31,13 @@ class Button extends Model
     public function attachProject($project_id, array $buttons)
     {
         // Remove previous buttons
-        $sql = "DELETE FROM buttons WHERE project_id = :project_id";
+        $sql = "DELETE FROM {$this->table} WHERE project_id = :project_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
         $stmt->execute();
 
         // Attach some buttons
-        $sql = "INSERT INTO buttons (project_id, name, icon, url, blank) VALUES (:project_id, :name, :icon, :url, :blank)";
+        $sql = "INSERT INTO {$this->table} (project_id, name, icon, url, blank) VALUES (:project_id, :name, :icon, :url, :blank)";
         $stmt = $this->db->prepare($sql);
 
         foreach ($buttons as $button)

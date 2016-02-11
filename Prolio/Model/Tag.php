@@ -9,13 +9,6 @@ class Tag extends Model
         'name'
     ];
 
-    public function __construct()
-    {
-        global $app;
-        $this->app = $app;
-        $this->db = \Prolio\Model\Spdo::get();
-    }
-
     /**
      * Get all tags from database
      * @return  array
@@ -36,9 +29,10 @@ class Tag extends Model
      */
     public function getAllByProject($project_id)
     {
+        $prefix = $this->db->getPrefix();
         $sql = "SELECT t.*
                 FROM {$this->table} t
-                INNER JOIN projects_tags pt ON pt.tag_id = t.id
+                INNER JOIN {$prefix}projects_tags pt ON pt.tag_id = t.id
                 WHERE pt.project_id = :project_id";
 
         $query = $this->db->prepare($sql);
@@ -76,19 +70,21 @@ class Tag extends Model
 
     /**
      * Attach some tags to a project
-     * @param  int $project_id 
+     * @param  int $project_id
      * @param  array  $tags  Tags ID
      */
     public function attachProject($project_id, array $tags)
     {
+        $prefix = $this->db->getPrefix();
+
         // Remove previous tags
-        $sql = "DELETE FROM projects_tags WHERE project_id = :project_id";
+        $sql = "DELETE FROM {$prefix}projects_tags WHERE project_id = :project_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
         $stmt->execute();
 
         // Attach some tags
-        $sql = "INSERT INTO projects_tags (project_id, tag_id) VALUES (:project_id, :tag_id)";
+        $sql = "INSERT INTO {$prefix}projects_tags (project_id, tag_id) VALUES (:project_id, :tag_id)";
         $stmt = $this->db->prepare($sql);
 
         foreach ($tags as $tag_id)

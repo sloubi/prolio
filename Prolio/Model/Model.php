@@ -12,6 +12,8 @@ abstract class Model
         global $app;
         $this->app = $app;
         $this->db = \Prolio\Model\Spdo::get();
+
+        $this->table = $this->db->getPrefix() . $this->table;
     }
 
     /**

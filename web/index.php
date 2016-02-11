@@ -57,7 +57,7 @@ if ($environment == 'dev')
 
 // Database
 $dbConfig = $app->config('database');
-\Prolio\Model\Spdo::setMysqlParams($dbConfig['host'], $dbConfig['name'], $dbConfig['user'], $dbConfig['pass']);
+\Prolio\Model\Spdo::setMysqlParams($dbConfig['host'], $dbConfig['name'], $dbConfig['user'], $dbConfig['pass'], $dbConfig['prefix']);
 
 // Site Title
 $pageModel = new \Prolio\Model\Page();

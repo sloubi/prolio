@@ -10,13 +10,6 @@ class Compatibility extends Model
         'category'
     ];
 
-    public function __construct()
-    {
-        global $app;
-        $this->app = $app;
-        $this->db = \Prolio\Model\Spdo::get();
-    }
-
     /**
      * Get all compatibilities from database
      * @return  array
@@ -43,9 +36,10 @@ class Compatibility extends Model
      */
     public function getAllByProject($project_id)
     {
+        $prefix = $this->db->getPrefix();
         $sql = "SELECT c.*
                 FROM {$this->table} c
-                INNER JOIN projects_compatibilities pc ON pc.compatibility_id = c.id
+                INNER JOIN {$prefix}projects_compatibilities pc ON pc.compatibility_id = c.id
                 WHERE pc.project_id = :project_id";
 
         $query = $this->db->prepare($sql);
@@ -88,14 +82,16 @@ class Compatibility extends Model
      */
     public function attachProject($project_id, array $compatibilities)
     {
+        $prefix = $this->db->getPrefix();
+
         // Remove previous compatibilities
-        $sql = "DELETE FROM projects_compatibilities WHERE project_id = :project_id";
+        $sql = "DELETE FROM {$prefix}projects_compatibilities WHERE project_id = :project_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
         $stmt->execute();
 
         // Attach some compatibilities
-        $sql = "INSERT INTO projects_compatibilities (project_id, compatibility_id)
+        $sql = "INSERT INTO {$prefix}projects_compatibilities (project_id, compatibility_id)
                 VALUES (:project_id, :compatibility_id)";
         $stmt = $this->db->prepare($sql);
 

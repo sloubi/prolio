@@ -48,7 +48,8 @@ class Install
                 'port' => '',
                 'name' => $this->app->request->post('db_name'),
                 'user' => $this->app->request->post('db_user'),
-                'pass' => $this->app->request->post('db_pass')
+                'pass' => $this->app->request->post('db_pass'),
+                'prefix' => ''
             ),
             'user' => array(
                 'email' => $this->app->request->post('email'),
@@ -115,6 +116,7 @@ class Install
             CREATE TABLE IF NOT EXISTS `projects` (
               `id` int(11) NOT NULL,
               `name` varchar(100) NOT NULL,
+              `slug` varchar(255) NOT NULL,
               `image` varchar(32) NOT NULL,
               `version` varchar(16) DEFAULT NULL,
               `description` text NOT NULL,

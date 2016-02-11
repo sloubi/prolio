@@ -7,14 +7,15 @@ use PDO;
 class Spdo
 {
     // Singleton
-    private static $spdo = null;
+    private static $spdo   = null;
 
-    // Native PDO object 
-    private $pdo   = null;
+    // Native PDO object
+    private $pdo           = null;
 
-    private static $dsn = null;
-    private static $user = null;
-    private static $pass = null;
+    private static $dsn    = null;
+    private static $user   = null;
+    private static $pass   = null;
+    private static $prefix = null;
 
     // Constructeur privé pour le singleton
     final private function __construct()
@@ -43,12 +44,18 @@ class Spdo
         return self::$spdo;
     }
 
-    // Fixe les paramètres de connexion
-    public static function setMysqlParams($host, $dbName, $user, $pass)
+    final public static function getPrefix()
     {
-        self::$dsn  = 'mysql:host=' . $host . ';dbname=' . $dbName;
-        self::$user = $user;
-        self::$pass = $pass;
+        return self::$prefix;
+    }
+
+    // Fixe les paramètres de connexion
+    public static function setMysqlParams($host, $dbName, $user, $pass, $prefix = '')
+    {
+        self::$dsn    = 'mysql:host=' . $host . ';dbname=' . $dbName;
+        self::$user   = $user;
+        self::$pass   = $pass;
+        self::$prefix = $prefix;
     }
 
     // Interdit le clonage du singleton

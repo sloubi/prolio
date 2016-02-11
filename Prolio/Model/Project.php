@@ -127,8 +127,10 @@ class Project extends Model
 
         // Delete relations
         $tables = ['buttons', 'projects_images', 'projects_tags'];
+        $prefix = $this->db->getPrefix();
         foreach ($tables as $table)
         {
+            $table = $prefix . $table;
             $sql = "DELETE FROM $table WHERE project_id = :project_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':project_id', $project_id, \PDO::PARAM_INT);
